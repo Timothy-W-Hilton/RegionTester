@@ -4,6 +4,7 @@
 import os
 import fiona
 import shapely.geometry
+import pkg_resources
 
 class InUSState(object):
     """methods to test if a (longitude, latitude) pair is in a US State
@@ -19,14 +20,12 @@ class InUSState(object):
         ARGS:
         shapefile (string): full path to a shapefile
         """
-        self.us_state_shapefile = os.path.join(os.getcwd(),
-                                               'data',
-                                               'cb_2015_us_state_500k',
-                                               'cb_2015_us_state_500k.shp')
-        self.us_nation_shapefile = os.path.join(os.getcwd(),
-                                                'data',
-                                                'cb_2015_us_nation_5m',
-                                                'cb_2015_us_nation_5m.shp')
+        self.us_state_shapefile = pkg_resources.resource_filename(
+            'RegionTester',
+            os.path.join('data', 'cb_2015_us_state_500k', 'cb_2015_us_state_500k.shp'))
+        self.us_nation_shapefile = pkg_resources.resource_filename(
+            'RegionTester',
+            os.path.join('data', 'cb_2015_us_nation_5m', 'cb_2015_us_nation_5m.shp'))
         self.shapefile = shapefile
 
     def get_state_shape(self, statename):

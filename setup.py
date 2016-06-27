@@ -16,4 +16,7 @@ config = {
     'name': 'RegionTester'
 }
 
-setup(**config)
+setup(package_dir={'RegionTester': 'RegionTester'},
+      package_data={'RegionTester': ['RegionTester/data/*']},
+
+      **config)

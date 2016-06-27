@@ -1,4 +1,5 @@
 import os
+import pkg_resources
 
 def setup_method(RegionTester):
     print "SETUP!"
@@ -16,14 +17,11 @@ def test_import2():
 def test_import3():
     from RegionTester import *
 
-# def test_USA_state_data_present():
-#     try:
-#         state_data =
-# def test_USA_data_present():
-#     assert os.path.exists(os.getcwd(),
-#                           'data',
-#                           'cb_2015_us_nation_5m',
-#                           'cb_2015_us_nation_5m.shp')
+def test_data_present():
+    assert pkg_resources.resource_exists('RegionTester',
+                                         'data/cb_2015_us_nation_5m/cb_2015_us_nation_5m.shp')
+    assert pkg_resources.resource_exists('RegionTester',
+                                         'data/cb_2015_us_state_500k/cb_2015_us_state_500k.shp')
 
 def test_cities():
     from RegionTester.region_tester import InUSState
