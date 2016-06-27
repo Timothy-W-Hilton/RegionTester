@@ -44,8 +44,18 @@ class InUSState(object):
             self.state_record['geometry'])
         fc.close()
 
+        self.lat_bounds = [self.state_shape.bounds[i] for i in [1, 3]]
+        self.lon_bounds = [self.state_shape.bounds[i] for i in [0, 2]]
+
     def point_inside(self, lon, lat):
         """return True if lon, lat is in state, False otherwise
         """
-        point = shapely.geometry.Point(lon, lat)
-        return self.state_shape.contains(point)
+        point_is_inside = True
+        if (lat < min(self.lat_bounds)) or (lat > max(self.lat_bounds)):
+            point_is_inside = False
+        elif (lon < min(self.lon_bounds)) or (lon > max(self.lon_bounds)):
+            point_is_inside = False
+        else:
+            point = shapely.geometry.Point(lon, lat)
+            point_is_inside = self.state_shape.contains(point)
+        return point_is_inside

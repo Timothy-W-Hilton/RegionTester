@@ -1,5 +1,6 @@
 import os
 import pkg_resources
+import numpy as np
 
 def setup_method(RegionTester):
     print "SETUP!"
@@ -40,3 +41,17 @@ def test_cities():
 
     assert Colorado.point_inside(sanfrancisco[0], sanfrancisco[1]) is False
     assert California.point_inside(denver[0], denver[1]) is False
+
+def test_grid():
+    from RegionTester.region_tester import InUSState
+    lon, lat = np.meshgrid(np.arange(-180, 180, 0.5),
+                           np.arange(-90, 90, 0.5))
+
+    California = InUSState()
+    California.get_state_shape('California')
+    iscal = np.empty(lon.shape, dtype=bool)
+    iscal[:] = False
+
+    for (x, y), this_lon in np.ndenumerate(lon):
+        iscal[x, y] = California.point_inside(lon[x, y], lat[x, y])
+    assert(iscal.any())
